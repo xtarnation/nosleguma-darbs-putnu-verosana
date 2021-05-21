@@ -1,9 +1,11 @@
 import json
 
+#saglabāto datu izmantošana katrai lietošanas reizei
 with open("putnudati.json", "r", encoding = 'utf-8') as fails:
     dati = fails.read()
 
 putnudati = json.loads(dati)
+#datu nolasīšanas beigas
 
 def izvelne():
     print("\nSveiciens, putnu vērotāj!\nKādu darbību veiksi?")
@@ -11,7 +13,11 @@ def izvelne():
     print("2: pievienot jaunu ierakstu")
     print("3: meklēt dienasgrāmatas ierakstu")
     print("4: saglabāt un beigt darbu")
+
+    #sākas datu ievade
     darbiba = input("\nIevadi skaitli!")
+    #beidzas datu ievade
+
     if darbiba == "1":
         ieraksti()
     elif darbiba == "2":
@@ -25,23 +31,31 @@ def izvelne():
         izvelne()
 
 def ieraksti():
+
+    #visi dati tiek parādīti
     print("\nVisi ieraksti:\n")
     for putns in putnudati:
         for p in putns:
             print(f'{p}: {putns[p]}')
         print()
+    #koda beigas
+
     izvelne()
 
 
 def pievienot():
-    putns = {}    
+    putns = {} 
+
+    #sākas datu ievade   
     nosaukumsLV = input("\nIevadi putna latvisko nosaukumu!")
     nosaukumsLAT = input("Ievadi putna latīnisko nosaukumu!") 
     datums = input("Ievadi novērojuma datumu!")
     laiks = input("Ievadi novērojuma laiku!")
     vieta = input("Ievadi novērojuma vietu!")
     piezimes = input("Ievadi novērojuma piezīmes!")
+    #beidzas datu ievade
 
+    #dati tiek saglabāti masīvā
     putns["nosaukumsLV"] = nosaukumsLV
     putns["nosaukumsLAT"] = nosaukumsLAT
     putns["datums"] = datums
@@ -50,6 +64,8 @@ def pievienot():
     putns["piezimes"] = piezimes
 
     putnudati.append(putns)
+    #beidzas datu saglabāšana
+
     print("\nNovērojums ir pievienots dienasgrāmatai\n")
 
     meklesana(nosaukumsLV)
@@ -57,9 +73,14 @@ def pievienot():
     izvelne()
 
 
+#meklētie dati tiek parādīti
 def meklesana(*args):
     if len(args)==0:
+
+        #sākas datu ievade
         nosaukums = input("\nIevadi putna latvisko nosaukumu!")
+        #beidzas datu ievade
+
     else:
         nosaukums = args[0]
     nosaukums = nosaukums.capitalize()
@@ -70,15 +91,21 @@ def meklesana(*args):
             atrasts = True
             for putns in p:
                 print(f"{putns}: {p[putns]}")
+#koda beigas
+
     if not atrasts:
         print("\nIeraksti par putnu nav atrasti\n")
     izvelne()
 
 
 def beigas():
+
+    #dati tiek saglabāti JSON failā
     dati = json.dumps(putnudati, ensure_ascii = False)
     with open("putnudati.json", "w", encoding = 'utf-8') as fails:
         fails.write(dati)
+    #saglabāšana beidzas
+
     print("\nIeraksti ir saglabāti dienasgrāmatā.\nUz tikšanos, putnu vērotāj!\n")
 
 
